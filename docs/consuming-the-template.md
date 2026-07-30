@@ -1,6 +1,6 @@
 # Consuming this template from a deployment repository
 
-This repository releases the reusable account-baseline module. A separate deployment repository, such as `beat-sst-aws`, owns the AWS account configuration and deployment authority.
+This repository releases the reusable account-baseline module. A separate application deployment repository owns the AWS account configuration and deployment authority.
 
 ## Dependency rule
 

@@ -1,6 +1,6 @@
 # AWS bootstrap design
 
-Use this project once per AWS account, independently from application SST projects. It owns account-wide controls; a consumer project such as `beat-sst-aws` supplies the real account values and deploys them after review.
+Use this project once per AWS account, independently from application SST projects. It owns account-wide controls; a consumer deployment repository supplies the real account values and deploys them after review.
 
 ## Coverage matrix
 
@@ -32,9 +32,11 @@ Use this project once per AWS account, independently from application SST projec
 
 An application SST project owns only its own resources. For `production`, set `protect: true`, retain persistent data, and use resource-level deletion protection where AWS supports it. Do not assume `protect` prevents all destructive edits: it prevents `sst remove`, while individual resources still need their own deletion safeguards.
 
-For Beat specifically, the application deployment role receives only `s3:ListBucket` constrained to `admins/events/*` and `s3:GetObject` for that prefix. It receives neither `PutObject` nor `DeleteObject`. The administrator event bucket should be created with Object Lock at creation time if WORM retention is required; S3 versioning by itself is not immutability.
+For an append-only application ledger, give reader roles only `s3:ListBucket` constrained to the required prefix and `s3:GetObject` for that prefix. Give writer roles `s3:PutObject` only on new, uniquely named keys; neither role should receive `s3:DeleteObject`. Create the bucket with Object Lock when WORM retention is required because S3 versioning by itself is not immutability.
 
-Use `createPrivateBucket("BeatAuthEvents", { name: "arlequin-beat-auth-prod", objectLockRetentionDays: 365 })` in the consumer's SST config when the event ledger needs WORM retention. The setting is intentionally opt-in: `COMPLIANCE` retention cannot be shortened or bypassed, including by account administrators. For normal uploads and caches, omit it.
+Use `createPrivateBucket("AuditEvents", { name: "acme-audit-events-prod", objectLockRetentionDays: 365 })` in the consumer's SST config when the event ledger needs WORM retention. Object Lock is intentionally opt-in and defaults to `GOVERNANCE`, which protects data unless a narrowly authorized operator explicitly bypasses retention. `COMPLIANCE` mode additionally requires `objectLockMode: "COMPLIANCE"` and `acknowledgeComplianceRetention: true` because its retention cannot be shortened or bypassed, including by account administrators. For normal uploads and caches, omit Object Lock.
+
+Object Lock always requires versioning. The template rejects `versioning: false` together with Object Lock before declaring any AWS resources.
 
 Every private bucket also receives a lifecycle rule that aborts incomplete multipart uploads after seven days. This avoids storage leaks without deleting completed application data. The consumer must not add a public bucket policy, ACL, or S3 website configuration to these buckets.
 

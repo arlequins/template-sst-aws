@@ -2,7 +2,7 @@
 
 This repository is a reusable SST reference template for an `aws-bootstrap` project: account-level controls that must remain separate from application infrastructure. It does not deploy to AWS from CI, and it is not a live account deployment repository.
 
-Keep this project separate from `beat` (or any other application SST project). Application deletion, renaming, or stage cleanup must never alter account budgets, GitHub trust, or account-wide public-access controls.
+Keep this project separate from application SST projects. Application deletion, renaming, or stage cleanup must never alter account budgets, GitHub trust, or account-wide public-access controls.
 
 ## What a derived project can include
 
@@ -12,7 +12,8 @@ Keep this project separate from `beat` (or any other application SST project). A
 - Default encryption for newly created EBS volumes in the selected region.
 - A strong IAM password policy for legacy IAM users.
 - Optional multi-region CloudTrail management-event audit trail, stored in a private, versioned, encrypted S3 bucket.
-- Optional S3 Object Lock retention for append-only event and audit buckets, plus incomplete-multipart-upload cleanup for every private bucket.
+- Optional S3 Object Lock retention for append-only event and audit buckets, with recoverable governance mode as the default and explicit acknowledgement for compliance mode.
+- Incomplete-multipart-upload cleanup for every private bucket.
 
 The SST code has `retain-all` removal protection. A project derived from this template must review its own account, organization controls, and deployment process before any manual deployment.
 
@@ -42,7 +43,7 @@ Consume a released Git tag rather than copying the template. A derived repositor
 ```json
 {
   "dependencies": {
-    "aws-account-baseline-sst": "github:arlequins/template-sst-aws#v0.1.0"
+    "aws-account-baseline-sst": "github:arlequins/template-sst-aws#vX.Y.Z"
   }
 }
 ```

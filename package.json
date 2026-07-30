@@ -4,7 +4,9 @@
   "version": "0.2.0",
   "type": "module",
   "exports": {
-    "./baseline": "./infra/baseline.ts"
+    "./baseline": "./infra/baseline.ts",
+    "./private-bucket": "./infra/private-bucket.ts",
+    "./account-addons": "./infra/account-addons.ts"
   },
   "files": [
     "infra"

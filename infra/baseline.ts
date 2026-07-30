@@ -22,13 +22,29 @@ export function createAccountBaseline(input: AccountBaselineInput) {
     limitUnit: "USD",
     timeUnit: "MONTHLY",
     timePeriodStart: currentMonthStart(),
-    notifications: [50, 80, 100].map((threshold) => ({
-      comparisonOperator: "GREATER_THAN",
-      notificationType: "ACTUAL",
-      threshold,
-      thresholdType: "PERCENTAGE",
-      subscriberEmailAddresses: [input.alertEmail],
-    })),
+    notifications: [
+      {
+        comparisonOperator: "GREATER_THAN",
+        notificationType: "ACTUAL",
+        threshold: 0,
+        thresholdType: "ABSOLUTE_VALUE",
+        subscriberEmailAddresses: [input.alertEmail],
+      },
+      ...[50, 80, 100].map((threshold) => ({
+        comparisonOperator: "GREATER_THAN",
+        notificationType: "ACTUAL" as const,
+        threshold,
+        thresholdType: "PERCENTAGE" as const,
+        subscriberEmailAddresses: [input.alertEmail],
+      })),
+      {
+        comparisonOperator: "GREATER_THAN",
+        notificationType: "FORECASTED",
+        threshold: 100,
+        thresholdType: "PERCENTAGE",
+        subscriberEmailAddresses: [input.alertEmail],
+      },
+    ],
     tags,
   });
 

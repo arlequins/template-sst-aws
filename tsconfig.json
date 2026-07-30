@@ -7,5 +7,5 @@
     "target": "ES2022",
     "skipLibCheck": true
   },
-  "files": ["sst.config.ts", "infra/baseline.ts"]
+  "files": ["sst.config.ts", "infra/baseline.ts", "infra/private-bucket.ts", "infra/account-addons.ts"]
 }

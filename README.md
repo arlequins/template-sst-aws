@@ -1,10 +1,13 @@
-# AWS account baseline with SST
+# AWS bootstrap with SST
 
-This repository is a reusable SST v3 reference template for a small, account-level AWS baseline. It does not deploy to AWS from CI, and it is not a live account deployment repository.
+This repository is a reusable SST reference template for an `aws-bootstrap` project: account-level controls that must remain separate from application infrastructure. It does not deploy to AWS from CI, and it is not a live account deployment repository.
+
+Keep this project separate from `beat` (or any other application SST project). Application deletion, renaming, or stage cleanup must never alter account budgets, GitHub trust, or account-wide public-access controls.
 
 ## What a derived project can include
 
 - A monthly **actual-cost** budget with alerts at 50%, 80%, and 100%.
+- A zero-spend actual-cost alert and a 100% forecast-cost alert.
 - Account-wide S3 Block Public Access.
 - Default encryption for newly created EBS volumes in the selected region.
 - A strong IAM password policy for legacy IAM users.
@@ -50,3 +53,5 @@ The first usable tag is created only after this repository's Release Please PR i
 ## Decisions before production
 
 See [docs/initial-setup.md](docs/initial-setup.md) for decisions that cannot safely be guessed: alert recipients and thresholds, organization/account layout, audit-log ownership and retention, identity provider, and security-service coverage.
+
+[The bootstrap design](docs/aws-bootstrap.md) records all required account controls, which ones are implemented here, and which require account-specific input in a deployment repository.

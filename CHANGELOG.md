@@ -5,7 +5,6 @@
 
 ### Features
 
-* add S3-primary data pattern ([22933dd](https://github.com/arlequins/template-sst-aws/commit/22933dd55433e8f8042e49971109ebca1e102365))
 * add S3-primary data pattern ([80fe7e6](https://github.com/arlequins/template-sst-aws/commit/80fe7e6f05efef7451f7a4e74b48944d110e93e7))
 
 ## [0.4.1](https://github.com/arlequins/template-sst-aws/compare/v0.4.0...v0.4.1) (2026-07-30)

@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.1](https://github.com/arlequins/template-sst-aws/compare/v0.4.0...v0.4.1) (2026-07-30)
+
+
+### Bug Fixes
+
+* validate irreversible object lock settings ([17e6149](https://github.com/arlequins/template-sst-aws/commit/17e61496290ebf8f901cb14ae004b4aea96980f6))
+* validate irreversible object lock settings ([f7da8d7](https://github.com/arlequins/template-sst-aws/commit/f7da8d74bc5ed2b04436271bb8f30286b96787c4))
+
 ## [0.4.0](https://github.com/arlequins/template-sst-aws/compare/v0.3.0...v0.4.0) (2026-07-30)
 
 

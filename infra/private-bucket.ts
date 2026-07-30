@@ -7,6 +7,7 @@ export type {
   ObjectLockMode,
   PrivateBucketInput,
   ResolvedPrivateBucketConfig,
+  WriteProtectionMode,
 } from "./private-bucket-config";
 
 /**
@@ -33,7 +34,7 @@ export function createPrivateBucket(logicalName: string, input: PrivateBucketInp
     bucket: bucket.id,
     rule: { objectOwnership: "BucketOwnerEnforced" },
   });
-  new aws.s3.BucketVersioningV2(`${logicalName}Versioning`, {
+  const versioning = new aws.s3.BucketVersioningV2(`${logicalName}Versioning`, {
     bucket: bucket.id,
     versioningConfiguration: { status: config.versioningStatus },
   });
@@ -43,22 +44,39 @@ export function createPrivateBucket(logicalName: string, input: PrivateBucketInp
   });
   new aws.s3.BucketLifecycleConfigurationV2(`${logicalName}Lifecycle`, {
     bucket: bucket.id,
-    rules: [{
-      id: "abort-incomplete-multipart-uploads",
-      status: "Enabled",
-      abortIncompleteMultipartUpload: { daysAfterInitiation: 7 },
-    }],
+    rules: [
+      {
+        id: "abort-incomplete-multipart-uploads",
+        status: "Enabled",
+        abortIncompleteMultipartUpload: { daysAfterInitiation: 7 },
+      },
+      ...(config.noncurrentVersionExpirationDays === undefined
+        ? []
+        : [
+            {
+              id: "expire-noncurrent-versions",
+              status: "Enabled" as const,
+              noncurrentVersionExpiration: {
+                noncurrentDays: config.noncurrentVersionExpirationDays,
+              },
+            },
+          ]),
+    ],
   });
   if (config.objectLock) {
-    new aws.s3.BucketObjectLockConfigurationV2(`${logicalName}ObjectLock`, {
-      bucket: bucket.id,
-      rule: {
-        defaultRetention: {
-          days: config.objectLock.retentionDays,
-          mode: config.objectLock.mode,
+    new aws.s3.BucketObjectLockConfigurationV2(
+      `${logicalName}ObjectLock`,
+      {
+        bucket: bucket.id,
+        rule: {
+          defaultRetention: {
+            days: config.objectLock.retentionDays,
+            mode: config.objectLock.mode,
+          },
         },
       },
-    });
+      { dependsOn: [versioning] },
+    );
   }
 
   const policy = aws.iam.getPolicyDocumentOutput({
@@ -77,6 +95,47 @@ export function createPrivateBucket(logicalName: string, input: PrivateBucketInp
           },
         ],
       },
+      ...(config.writeProtection === "conditional"
+        ? [
+            {
+              sid: "RequireConditionalWrites",
+              effect: "Deny" as const,
+              principals: [{ type: "*", identifiers: ["*"] }],
+              actions: ["s3:PutObject"],
+              resources: [$interpolate`${bucket.arn}/*`],
+              conditions: [
+                {
+                  test: "Null",
+                  variable: "s3:if-match",
+                  values: ["true"],
+                },
+                {
+                  test: "Null",
+                  variable: "s3:if-none-match",
+                  values: ["true"],
+                },
+              ],
+            },
+          ]
+        : []),
+      ...(config.writeProtection === "append-only"
+        ? [
+            {
+              sid: "RequireCreateOnlyWrites",
+              effect: "Deny" as const,
+              principals: [{ type: "*", identifiers: ["*"] }],
+              actions: ["s3:PutObject"],
+              resources: [$interpolate`${bucket.arn}/*`],
+              conditions: [
+                {
+                  test: "Null",
+                  variable: "s3:if-none-match",
+                  values: ["true"],
+                },
+              ],
+            },
+          ]
+        : []),
     ],
   });
   new aws.s3.BucketPolicy(`${logicalName}TlsOnly`, {

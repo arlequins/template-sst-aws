@@ -49,3 +49,4 @@ Budget alerts are **actual spend**, not a spending cap. AWS does not automatical
 - Billing settings, root MFA, Organizations, IAM Identity Center, and account contacts are deliberately not automated here because they can change account ownership or require an identity-provider/organization decision.
 - EBS encryption is regional. Deploy this template separately for each required region after reviewing the effects.
 - This template does not set an AWS Budget Action to stop services. Automatic stopping can cause outages and requires a service-specific decision.
+- The S3-primary module is application infrastructure, not an account-level control. Instantiate it from the consuming application stack after reviewing its concurrency and recovery limits.

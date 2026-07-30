@@ -12,6 +12,8 @@
     "infra/baseline.ts",
     "infra/private-bucket.ts",
     "infra/private-bucket-config.ts",
-    "infra/account-addons.ts"
+    "infra/account-addons.ts",
+    "infra/s3-primary-data.ts",
+    "infra/s3-primary-data-config.ts"
   ]
 }

@@ -1,7 +1,7 @@
 {
   "name": "aws-account-baseline-sst",
   "private": true,
-  "version": "0.4.0",
+  "version": "0.4.1",
   "type": "module",
   "exports": {
     "./baseline": "./infra/baseline.ts",

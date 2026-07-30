@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/arlequins/template-sst-aws/compare/v0.4.1...v0.5.0) (2026-07-30)
+
+
+### Features
+
+* add S3-primary data pattern ([80fe7e6](https://github.com/arlequins/template-sst-aws/commit/80fe7e6f05efef7451f7a4e74b48944d110e93e7))
+
 ## [0.4.1](https://github.com/arlequins/template-sst-aws/compare/v0.4.0...v0.4.1) (2026-07-30)
 
 

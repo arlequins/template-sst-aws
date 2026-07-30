@@ -4,6 +4,8 @@ type PrivateBucketInput = {
   /** Required for audit/event data; do not use this module for disposable caches. */
   versioning?: boolean;
   tags?: Record<string, string>;
+  /** Enables WORM retention for append-only audit or event data. */
+  objectLockRetentionDays?: number;
 };
 
 /**
@@ -14,6 +16,7 @@ type PrivateBucketInput = {
 export function createPrivateBucket(logicalName: string, input: PrivateBucketInput) {
   const bucket = new aws.s3.BucketV2(logicalName, {
     bucket: input.name,
+    ...(input.objectLockRetentionDays ? { objectLockEnabled: true } : {}),
     tags: input.tags,
   });
 
@@ -36,6 +39,25 @@ export function createPrivateBucket(logicalName: string, input: PrivateBucketInp
     bucket: bucket.id,
     rules: [{ applyServerSideEncryptionByDefault: { sseAlgorithm: "AES256" } }],
   });
+  new aws.s3.BucketLifecycleConfigurationV2(`${logicalName}Lifecycle`, {
+    bucket: bucket.id,
+    rules: [{
+      id: "abort-incomplete-multipart-uploads",
+      status: "Enabled",
+      abortIncompleteMultipartUpload: { daysAfterInitiation: 7 },
+    }],
+  });
+  if (input.objectLockRetentionDays) {
+    if (!Number.isInteger(input.objectLockRetentionDays) || input.objectLockRetentionDays < 1) {
+      throw new Error("objectLockRetentionDays must be a positive integer");
+    }
+    new aws.s3.BucketObjectLockConfigurationV2(`${logicalName}ObjectLock`, {
+      bucket: bucket.id,
+      rule: {
+        defaultRetention: { days: input.objectLockRetentionDays, mode: "COMPLIANCE" },
+      },
+    });
+  }
 
   const policy = aws.iam.getPolicyDocumentOutput({
     statements: [

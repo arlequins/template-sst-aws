@@ -12,6 +12,7 @@ Keep this project separate from `beat` (or any other application SST project). A
 - Default encryption for newly created EBS volumes in the selected region.
 - A strong IAM password policy for legacy IAM users.
 - Optional multi-region CloudTrail management-event audit trail, stored in a private, versioned, encrypted S3 bucket.
+- Optional S3 Object Lock retention for append-only event and audit buckets, plus incomplete-multipart-upload cleanup for every private bucket.
 
 The SST code has `retain-all` removal protection. A project derived from this template must review its own account, organization controls, and deployment process before any manual deployment.
 

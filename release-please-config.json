@@ -1,0 +1,10 @@
+{
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "aws-account-baseline-sst",
+      "include-component-in-tag": false,
+      "include-v-in-tag": true
+    }
+  }
+}

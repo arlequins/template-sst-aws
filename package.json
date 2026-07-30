@@ -1,0 +1,24 @@
+{
+  "name": "aws-account-baseline-sst",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    "./baseline": "./infra/baseline.ts"
+  },
+  "files": [
+    "infra"
+  ],
+  "scripts": {
+    "install:sst": "sst install",
+    "check": "tsc --project tsconfig.json"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "sst": "^3.0.0",
+    "typescript": "^5.6.0"
+  }
+}

@@ -34,7 +34,9 @@ An application SST project owns only its own resources. For `production`, set `p
 
 For Beat specifically, the application deployment role receives only `s3:ListBucket` constrained to `admins/events/*` and `s3:GetObject` for that prefix. It receives neither `PutObject` nor `DeleteObject`. The administrator event bucket should be created with Object Lock at creation time if WORM retention is required; S3 versioning by itself is not immutability.
 
-Use `createPrivateBucket("BeatAuthEvents", { name: "arlequin-beat-auth-prod" })` in the consumer's SST config. The consumer must not add a public bucket policy, ACL, or S3 website configuration to that bucket.
+Use `createPrivateBucket("BeatAuthEvents", { name: "arlequin-beat-auth-prod", objectLockRetentionDays: 365 })` in the consumer's SST config when the event ledger needs WORM retention. The setting is intentionally opt-in: `COMPLIANCE` retention cannot be shortened or bypassed, including by account administrators. For normal uploads and caches, omit it.
+
+Every private bucket also receives a lifecycle rule that aborts incomplete multipart uploads after seven days. This avoids storage leaks without deleting completed application data. The consumer must not add a public bucket policy, ACL, or S3 website configuration to these buckets.
 
 ## Cost guardrails
 

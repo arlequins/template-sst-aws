@@ -13,6 +13,7 @@ Keep this project separate from application SST projects. Application deletion, 
 - A strong IAM password policy for legacy IAM users.
 - Optional multi-region CloudTrail management-event audit trail, stored in a private, versioned, encrypted S3 bucket.
 - Optional S3 Object Lock retention for append-only event and audit buckets, with recoverable governance mode as the default and explicit acknowledgement for compliance mode.
+- A reusable S3-primary application data pattern with separate mutable state and immutable ledger buckets, conditional-write enforcement, noncurrent-version recovery, and a no-delete runtime policy.
 - Incomplete-multipart-upload cleanup for every private bucket.
 
 The SST code has `retain-all` removal protection. A project derived from this template must review its own account, organization controls, and deployment process before any manual deployment.
@@ -49,6 +50,12 @@ Consume a released Git tag rather than copying the template. A derived repositor
 ```
 
 The first usable tag is created only after this repository's Release Please PR is merged. See [docs/consuming-the-template.md](docs/consuming-the-template.md) for the required consumer boundary.
+
+For a small application that intentionally uses S3 as its primary persistence
+service, use the released `s3-primary-data` module and follow
+[the S3-primary application contract](docs/s3-primary-data.md). The account
+baseline and application data store remain separate deployments even when they
+come from the same released package.
 
 `ENABLE_AUDIT_TRAIL` is deliberately false by default. Enable it only after confirming that AWS Organizations or Control Tower has not already created an organization trail.
 

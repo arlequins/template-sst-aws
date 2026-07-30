@@ -11,6 +11,7 @@ Use this project once per AWS account, independently from application SST projec
 | Cost Anomaly Detection | Required consumer module | Create a service monitor and email/SNS subscription; start at USD 3. It needs an account-owned recipient. |
 | Account S3 Block Public Access | Implemented | All four account-level controls are enabled. |
 | Private application S3 bucket | Implemented reusable module | `private-bucket` enables all four bucket controls, BucketOwnerEnforced ownership, versioning, default encryption, and denies non-TLS requests. |
+| S3-primary state and ledger | Implemented reusable module | `s3-primary-data` creates separate state and Object Lock ledger buckets, enforces conditional writes, and returns a no-delete runtime policy. Use only for deterministic-key, low-concurrency workloads. |
 | EBS encryption by default | Implemented | Regional control. |
 | IAM Access Analyzer | Required consumer module | One account analyzer per intended region. |
 | CloudTrail management events | Optional, implemented | Enable only when no Organizations/Control Tower trail already covers the account. |
@@ -39,6 +40,12 @@ Use `createPrivateBucket("AuditEvents", { name: "acme-audit-events-prod", object
 Object Lock always requires versioning. The template rejects `versioning: false` together with Object Lock before declaring any AWS resources.
 
 Every private bucket also receives a lifecycle rule that aborts incomplete multipart uploads after seven days. This avoids storage leaks without deleting completed application data. The consumer must not add a public bucket policy, ACL, or S3 website configuration to these buckets.
+
+The `s3-primary-data` module adds a 90-day default expiry for noncurrent state
+versions and enforces ETag-based writes at the bucket-policy boundary. Its
+ledger requires create-only `PutObject` calls and Object Lock. See
+[S3-primary application data pattern](s3-primary-data.md) for the application
+protocol, workload limits, and production verification requirements.
 
 ## Cost guardrails
 

@@ -18,6 +18,44 @@ describe("resolvePrivateBucketConfig", () => {
     ).toEqual({ versioningStatus: "Suspended" });
   });
 
+  it("retains noncurrent versions and conditional-write protection", () => {
+    expect(
+      resolvePrivateBucketConfig({
+        name: "acme-state",
+        noncurrentVersionExpirationDays: 90,
+        writeProtection: "conditional",
+      }),
+    ).toEqual({
+      noncurrentVersionExpirationDays: 90,
+      versioningStatus: "Enabled",
+      writeProtection: "conditional",
+    });
+  });
+
+  it.each([0, -1, 1.5, Number.NaN])(
+    "rejects invalid noncurrent-version retention: %s",
+    (noncurrentVersionExpirationDays) => {
+      expect(() =>
+        resolvePrivateBucketConfig({
+          name: "acme-state",
+          noncurrentVersionExpirationDays,
+        }),
+      ).toThrow("noncurrentVersionExpirationDays must be a positive integer");
+    },
+  );
+
+  it("requires versioning for noncurrent-version retention", () => {
+    expect(() =>
+      resolvePrivateBucketConfig({
+        name: "acme-state",
+        noncurrentVersionExpirationDays: 90,
+        versioning: false,
+      }),
+    ).toThrow(
+      "noncurrentVersionExpirationDays requires versioning to remain enabled",
+    );
+  });
+
   it("uses governance retention as the recoverable Object Lock default", () => {
     expect(
       resolvePrivateBucketConfig({

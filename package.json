@@ -6,7 +6,8 @@
   "exports": {
     "./baseline": "./infra/baseline.ts",
     "./private-bucket": "./infra/private-bucket.ts",
-    "./account-addons": "./infra/account-addons.ts"
+    "./account-addons": "./infra/account-addons.ts",
+    "./s3-primary-data": "./infra/s3-primary-data.ts"
   },
   "files": [
     "infra"

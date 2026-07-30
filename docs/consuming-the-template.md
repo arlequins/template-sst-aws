@@ -20,6 +20,17 @@ The consumer imports the single public module:
 import { createAccountBaseline } from "aws-account-baseline-sst/baseline";
 ```
 
+Application deployment repositories may additionally import the S3-primary
+module:
+
+```ts
+import { createS3PrimaryDataStore } from "aws-account-baseline-sst/s3-primary-data";
+```
+
+That module belongs in the application deployment, not in the once-per-account
+bootstrap stack. Review [the S3-primary contract](s3-primary-data.md) before
+using it.
+
 ## Consumer-owned configuration
 
 Keep these values only in the deployment repository's protected environment or its encrypted secret store:

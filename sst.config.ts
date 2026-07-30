@@ -1,7 +1,5 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 
-import { createAccountBaseline } from "./infra/baseline";
-
 const region = process.env.AWS_REGION ?? "ap-northeast-1";
 
 export default $config({
@@ -17,6 +15,8 @@ export default $config({
     };
   },
   async run() {
+    const { createAccountBaseline } = await import("./infra/baseline");
+
     if (process.env.ACKNOWLEDGE_ACCOUNT_BASELINE !== "true") {
       throw new Error(
         "Set ACKNOWLEDGE_ACCOUNT_BASELINE=true only after reviewing docs/initial-setup.md.",

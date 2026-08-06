@@ -92,17 +92,20 @@ export function createRuntimeSecret(input: {
 /** A service-wide Cost Anomaly monitor and daily email subscription. */
 export function createCostAnomalyAlerts(input: {
   email: string;
+  monitorArn?: string;
   thresholdUsd?: number;
 }) {
-  const monitor = new aws.costexplorer.AnomalyMonitor("ServiceCostAnomalyMonitor", {
-    name: "all-aws-services",
-    monitorType: "DIMENSIONAL",
-    monitorDimension: "SERVICE",
-  });
+  const monitorArn =
+    input.monitorArn ??
+    new aws.costexplorer.AnomalyMonitor("ServiceCostAnomalyMonitor", {
+      name: "all-aws-services",
+      monitorType: "DIMENSIONAL",
+      monitorDimension: "SERVICE",
+    }).arn;
   return new aws.costexplorer.AnomalySubscription("CostAnomalySubscription", {
     name: "cost-anomaly-email",
     frequency: "DAILY",
-    monitorArnLists: [monitor.arn],
+    monitorArnLists: [monitorArn],
     subscribers: [{ type: "EMAIL", address: input.email }],
     thresholdExpression: {
       dimension: {

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.3](https://github.com/arlequins/template-sst-aws/compare/v0.5.2...v0.5.3) (2026-08-06)
+
+
+### Bug Fixes
+
+* use Cost Explorer anomaly resources ([b4c544e](https://github.com/arlequins/template-sst-aws/commit/b4c544ed6977b8aa60a5cc37d7abfd49504596da))
+
 ## [0.5.2](https://github.com/arlequins/template-sst-aws/compare/v0.5.1...v0.5.2) (2026-08-06)
 
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.4](https://github.com/arlequins/template-sst-aws/compare/v0.5.3...v0.5.4) (2026-08-06)
+
+
+### Bug Fixes
+
+* support immutable GitHub OIDC subjects ([b4ad6f3](https://github.com/arlequins/template-sst-aws/commit/b4ad6f3a4429267a3abf5a73bb645bdf907ed035))
+
 ## [0.5.3](https://github.com/arlequins/template-sst-aws/compare/v0.5.2...v0.5.3) (2026-08-06)
 
 

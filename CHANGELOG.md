@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.2](https://github.com/arlequins/template-sst-aws/compare/v0.5.1...v0.5.2) (2026-08-06)
+
+
+### Bug Fixes
+
+* use supported EBS encryption resource ([623a8c1](https://github.com/arlequins/template-sst-aws/commit/623a8c1a862d5635647c66526ad468e4bdd89f79))
+
 ## [0.5.1](https://github.com/arlequins/template-sst-aws/compare/v0.5.0...v0.5.1) (2026-08-06)
 
 

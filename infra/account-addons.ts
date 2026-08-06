@@ -86,18 +86,18 @@ export function createCostAnomalyAlerts(input: {
   email: string;
   thresholdUsd?: number;
 }) {
-  const monitor = new aws.ce.AnomalyMonitor("ServiceCostAnomalyMonitor", {
-    monitorName: "all-aws-services",
+  const monitor = new aws.costexplorer.AnomalyMonitor("ServiceCostAnomalyMonitor", {
+    name: "all-aws-services",
     monitorType: "DIMENSIONAL",
     monitorDimension: "SERVICE",
   });
-  return new aws.ce.AnomalySubscription("CostAnomalySubscription", {
+  return new aws.costexplorer.AnomalySubscription("CostAnomalySubscription", {
     name: "cost-anomaly-email",
     frequency: "DAILY",
     monitorArnLists: [monitor.arn],
     subscribers: [{ type: "EMAIL", address: input.email }],
     thresholdExpression: {
-      dimensions: {
+      dimension: {
         key: "ANOMALY_TOTAL_IMPACT_ABSOLUTE",
         values: [(input.thresholdUsd ?? 3).toString()],
         matchOptions: ["GREATER_THAN_OR_EQUAL"],

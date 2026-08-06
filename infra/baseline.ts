@@ -59,7 +59,7 @@ export function createAccountBaseline(input: AccountBaselineInput) {
     },
   );
 
-  const ebsEncryption = new aws.ec2.EbsEncryptionByDefault(
+  const ebsEncryption = new aws.ebs.EncryptionByDefault(
     "EbsEncryptionByDefault",
     { enabled: true },
   );

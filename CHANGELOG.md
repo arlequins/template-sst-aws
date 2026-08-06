@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/arlequins/template-sst-aws/compare/v0.5.0...v0.5.1) (2026-08-06)
+
+
+### Bug Fixes
+
+* use supported account public access block resource ([69c051d](https://github.com/arlequins/template-sst-aws/commit/69c051df7786dc63b80d8c8410f254c485e1717e))
+
 ## [0.5.0](https://github.com/arlequins/template-sst-aws/compare/v0.4.1...v0.5.0) (2026-07-30)
 
 

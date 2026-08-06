@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.5](https://github.com/arlequins/template-sst-aws/compare/v0.5.4...v0.5.5) (2026-08-06)
+
+
+### Bug Fixes
+
+* reuse managed cost anomaly monitor ([683d0cc](https://github.com/arlequins/template-sst-aws/commit/683d0cc55041eec20797f40d866ee2e6ce3b63e0))
+
 ## [0.5.4](https://github.com/arlequins/template-sst-aws/compare/v0.5.3...v0.5.4) (2026-08-06)
 
 

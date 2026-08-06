@@ -48,7 +48,7 @@ export function createAccountBaseline(input: AccountBaselineInput) {
     tags,
   });
 
-  const publicAccessBlock = new aws.s3control.AccountPublicAccessBlock(
+  const publicAccessBlock = new aws.s3.AccountPublicAccessBlock(
     "AccountPublicAccessBlock",
     {
       accountId: caller.accountId,

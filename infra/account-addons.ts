@@ -36,6 +36,7 @@ export function createGitHubOidcRole(input: {
   repository: string;
   environment: string;
   providerArn: string;
+  subject?: string;
   tags: Tags;
 }) {
   const trust = aws.iam.getPolicyDocumentOutput({
@@ -45,7 +46,14 @@ export function createGitHubOidcRole(input: {
       principals: [{ type: "Federated", identifiers: [input.providerArn] }],
       conditions: [
         { test: "StringEquals", variable: "token.actions.githubusercontent.com:aud", values: ["sts.amazonaws.com"] },
-        { test: "StringEquals", variable: "token.actions.githubusercontent.com:sub", values: [`repo:${input.repository}:environment:${input.environment}`] },
+        {
+          test: "StringEquals",
+          variable: "token.actions.githubusercontent.com:sub",
+          values: [
+            input.subject ??
+              `repo:${input.repository}:environment:${input.environment}`,
+          ],
+        },
       ],
     }],
   });

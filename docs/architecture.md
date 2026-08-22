@@ -36,6 +36,9 @@ never recreate them in an application stack.
 5. Run AWS diff/deploy only from a trusted GitHub Actions OIDC workflow in the
    consuming repository.
 
+When an application adapter is migrated, remove its compatibility export only
+after downstream imports and boundary tests have moved to the new port.
+
 See [S3-primary application contract](s3-primary-data.md) for the storage
 adapter boundary and [consuming the template](consuming-the-template.md) for
 the handoff between account baseline and application infrastructure.

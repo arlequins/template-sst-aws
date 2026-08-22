@@ -4,6 +4,9 @@ This repository is a reusable SST reference template for an `aws-bootstrap` proj
 
 Keep this project separate from application SST projects. Application deletion, renaming, or stage cleanup must never alter account budgets, GitHub trust, or account-wide public-access controls.
 
+The infrastructure layering and consumer boundary are documented in
+[docs/architecture.md](docs/architecture.md).
+
 ## What a derived project can include
 
 - A monthly **actual-cost** budget with alerts at 50%, 80%, and 100%.

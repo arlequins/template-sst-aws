@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.6](https://github.com/arlequins/template-sst-aws/compare/v0.5.5...v0.5.6) (2026-08-22)
+
+
+### Bug Fixes
+
+* preserve adapter migration guidance ([#17](https://github.com/arlequins/template-sst-aws/issues/17)) ([31dbb80](https://github.com/arlequins/template-sst-aws/commit/31dbb809e10cd2cca6270e18bf89f9a2dfb11f4f))
+
 ## [0.5.5](https://github.com/arlequins/template-sst-aws/compare/v0.5.4...v0.5.5) (2026-08-06)
 
 

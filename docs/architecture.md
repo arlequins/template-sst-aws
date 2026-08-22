@@ -38,6 +38,8 @@ never recreate them in an application stack.
 
 When an application adapter is migrated, remove its compatibility export only
 after downstream imports and boundary tests have moved to the new port.
+Record that cleanup as a separate conventional change so release notes retain
+the migration step.
 
 See [S3-primary application contract](s3-primary-data.md) for the storage
 adapter boundary and [consuming the template](consuming-the-template.md) for

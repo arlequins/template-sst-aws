@@ -14,6 +14,14 @@ This is a baseline for a new, standalone AWS account. For an AWS Organization, a
 
 Budget alerts are **actual spend**, not a spending cap. AWS does not automatically stop resources when a threshold is crossed. Confirm the subscription email after deployment.
 
+## Execution rule
+
+Use local SSO for account-console setup and human review only. Production
+`sst diff` and `sst deploy` operations must run in the trusted consumer
+repository's protected GitHub Actions workflow through OIDC. Do not run
+production SST or AWS apply commands from a developer laptop and do not place
+long-lived AWS keys in GitHub or local configuration.
+
 ## Must do manually before deploying
 
 - [ ] Secure the root user: enable MFA, remove root access keys, and do not use root for normal work.

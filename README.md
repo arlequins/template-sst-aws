@@ -6,6 +6,8 @@ Keep this project separate from application SST projects. Application deletion, 
 
 The infrastructure layering and consumer boundary are documented in
 [docs/architecture.md](docs/architecture.md).
+The end-to-end OIDC, secret, CI, review, and release handoff is documented in
+[docs/operating-model.md](docs/operating-model.md).
 
 ## What a derived project can include
 
